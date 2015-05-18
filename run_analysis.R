@@ -23,7 +23,7 @@ checkDataFolder <- function() {
 }
 
 
-readTestFiles <- fucntion() {
+readTestFiles <- function() {
         
         # read the TEST files 
         message("Reading the TEST files...")
@@ -35,7 +35,7 @@ readTestFiles <- fucntion() {
 }
 
 
-readTrainFiles <- fucntion() {
+readTrainFiles <- function() {
         
         # read the TRAIN files 
         message("Reading the TRAIN files...")
