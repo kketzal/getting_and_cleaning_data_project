@@ -29,7 +29,7 @@ suppressPackageStartupMessages(library(dplyr))
         if(!file.exists("UCI HAR Dataset/train/y_train.txt"))
             stop("TRAIN files: ACTIVITY file 'y_train.txt' doesn't exist!")
 
-        # Check if ACTIVITY file exists...
+        # Check if ACTIVITY LABELS file exists...
         if(!file.exists("UCI HAR Dataset/activity_labels.txt"))
             stop("ACTIVITY file: file 'activity_labels.txt' doesn't exist!")
 
@@ -41,27 +41,28 @@ suppressPackageStartupMessages(library(dplyr))
         ###############################################################
         ##
         ##  NO PROBLEM. ALL FILES EXIST, SO, WE'RE GOING TO READ THEM.
+        ##  (check.names = TRUE to avoid duplicate variable names)
         ##
         ###############################################################
 
         # read the TEST files 
         message("Reading the TEST files...")
-        test_subject_df <- tbl_df(read.table("UCI HAR Dataset/test/subject_test.txt"))
-        test_X_df <- tbl_df(read.table("UCI HAR Dataset/test/X_test.txt"))
-        test_y_df <- tbl_df(read.table("UCI HAR Dataset/test/y_test.txt"))
+        test_subject_df <- tbl_df(read.table("UCI HAR Dataset/test/subject_test.txt", check.names = TRUE))
+        test_X_df <- tbl_df(read.table("UCI HAR Dataset/test/X_test.txt", check.names = TRUE))
+        test_y_df <- tbl_df(read.table("UCI HAR Dataset/test/y_test.txt", check.names = TRUE))
         
         
         # read the TRAIN files 
         message("Reading the TRAIN files...")
-        train_subject_df <- tbl_df(read.table("UCI HAR Dataset/train/subject_train.txt"))
-        train_X_df <- tbl_df(read.table("UCI HAR Dataset/train/X_train.txt"))
-        train_y_df <- tbl_df(read.table("UCI HAR Dataset/train/y_train.txt"))
+        train_subject_df <- tbl_df(read.table("UCI HAR Dataset/train/subject_train.txt", check.names = TRUE))
+        train_X_df <- tbl_df(read.table("UCI HAR Dataset/train/X_train.txt", check.names = TRUE))
+        train_y_df <- tbl_df(read.table("UCI HAR Dataset/train/y_train.txt", check.names = TRUE))
 
         
         # read the ACTIVITY and FEATURES files 
         message("Reading the ACTIVITY and FEATURES files...")
-        activity_names <- tbl_df(read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE))        
-        feature_names <- tbl_df(read.table("UCI HAR Dataset/features.txt", stringsAsFactors = FALSE))
+        activity_names <- tbl_df(read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE, check.names = TRUE))        
+        feature_names <- tbl_df(read.table("UCI HAR Dataset/features.txt", stringsAsFactors = FALSE, check.names = TRUE))
 
 
         ###############################################################
@@ -87,6 +88,7 @@ suppressPackageStartupMessages(library(dplyr))
         ## There are problems with duplicate names in 'name_of_features', so, we need
         ## check the names and rewrite them in a unique form. The result is stored 
         ## in the same variable 'name_of_features'
+        
         name_of_features <- make.names(name_of_features, unique = TRUE)
         
 
@@ -109,18 +111,45 @@ suppressPackageStartupMessages(library(dplyr))
         data_table <- tbl_df(cbind(subject_merged, activity_df, X_merged))
 
 
-        # Get the index of columns with MEAN and STANDARD DEVIATION values,
-        # and then, the table with the SUBJECT (V1), ACTIVITY (V2) and MEAN and 
-        # STD values
+
+        # Get the INDEX of COLUMNS with MEAN and STANDARD DEVIATION values from
+        # the character vector "name_of_features". This index gives us the position
+        # of MEAN and STD columns in the "data_table" dataset. 
+        # Previously, we need to ADD the NUMBER "2" to this columns index, because 
+        # in the final "data_table" dataset, the First and Second columns are the SUBJECT
+        # and the ACTIVITY values, so we need to "JUMP" this 2 first columns.
+
         message("Getting the data table with Subject, Activity, MEAN and STD values...")
-        mean_std_columns_index <- grep("mean|std", name_of_features, value = FALSE)      
-        mean_std_data_table <- select(data_table, V1, V2, mean_std_columns_index)
-        
+        # extract only the mean and std values...
+        mean_std_columns_index <- grep("mean|std", name_of_features, value = FALSE) 
+        # ADD 2 to entire index vector...
+        mean_std_columns_index <- mean_std_columns_index + 2 
+        # and then, get the table with the SUBJECT (V1), ACTIVITY (V2) and MEAN and 
+        # STD values        
+        mean_std_data_table <- select(data_table, V1, V2, mean_std_columns_index)        
         # Rename the subject column (V1) and Activity column (V2) with descriptive 
         # names
         mean_std_data_table <- rename(mean_std_data_table, Subject = V1, Activity = V2)
   
-
+        
+        # Group the "mean_std_data_table" dataset by SUBJECT and ACTIVITY
         my_group <- group_by(mean_std_data_table,Subject,Activity)
+
+        # FINALLY, we get the "final_tidy_dataset" with the average of the mean and std 
+        # values, grouped by Subject and Activity
+        message("Getting the final tidy dataset with the mean and std of all values, grouped by Subject and Activity...")
         final_tidy_dataset <- summarise_each(my_group, funs(mean))
 
+        # Write a file with the dataset "final_tidy_dataset" 
+        message("Writting the result file in the working directory...")
+        write.table(final_tidy_dataset, file = "final_tidy_dataset.txt", row.names = FALSE)
+        message("Done!")
+
+        ## NOTE: you can read the file with the command:
+        ## x <- read.table("final_tidy_dataset.txt", header = TRUE)
+        
+
+
+        ##################################################################
+        ##################################################################
+        ##################################################################
