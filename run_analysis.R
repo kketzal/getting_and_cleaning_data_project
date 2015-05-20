@@ -137,7 +137,7 @@ suppressPackageStartupMessages(library(dplyr))
 
         # FINALLY, we get the "final_tidy_dataset" with the average of the mean and std 
         # values, grouped by Subject and Activity
-        message("Getting the final tidy dataset with the mean and std of all values, grouped by Subject and Activity...")
+        message("Getting the final tidy dataset with the average of all measurement values (mean and std), grouped by Subject and Activity...")
         final_tidy_dataset <- summarise_each(my_group, funs(mean))
 
         # Write a file with the dataset "final_tidy_dataset" 
