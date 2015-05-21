@@ -47,12 +47,12 @@ date: "20/05/2015"
 * Check if TEST files exist.
     + "subject_test.txt": This file contains an identifier (integer ID) for each person who performed measurements.
     + "X_test.txt": This file contains every testing measurement.
-    + "y_test.txt": This file contains the activity that each person was doing when testing measurements were taken.    
+    + "y_test.txt": This file contains the activity ID that each person was doing when testing measurements were taken.    
     
 * Check if TRAIN files exist.
     + "subject_train.txt": This file contains an identifier (integer ID) for each person who performed measurements.
     + "X_train.txt": This file contains every training measurement.
-    + "y_train.txt": This file contains the activity that each person was doing when training measurements were taken.
+    + "y_train.txt": This file contains the activity ID that each person was doing when training measurements were taken.
     
          
 ####  STEP 3: Reading the TEST files...
@@ -86,3 +86,16 @@ feature_names <- tbl_df(read.table("UCI HAR Dataset/features.txt", stringsAsFact
 
 ```
          
+####  STEP 6: Merging the TEST and TRAIN data tables....")
+* Now, we merge train datasets and test datasets separately.
+* In this way:
+   + we bind all train and test features datasets.
+   + we bind all train and test activity ID's datasets.   
+   + we bind all train and test subject datasets.
+
+```
+X_merged <- rbind(test_X_df, train_X_df)
+y_merged <- rbind(test_y_df, train_y_df)
+subject_merged <- rbind(test_subject_df, train_subject_df)
+
+```
