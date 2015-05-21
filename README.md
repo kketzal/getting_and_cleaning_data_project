@@ -10,7 +10,7 @@ date: "20/05/2015"
 ## Getting and Cleaning Data - Course Project
 **************
 
-####  Quick View
+####  Quick Overview
            
            > source("run_analysis.R")         
            Loading necessary libraries...           
@@ -32,19 +32,57 @@ date: "20/05/2015"
 
 * In this step the script load the library "dplyr", useful for managing dataframes. 
 
+
 ####  STEP 2: Checking necessary files... 
-* In this step the script check for necessary files.
+* In this step the script check for necessary files, always in **current working directory**.
+
 * Check if folder "UCI HAR Dataset" exists. TRAIN and TEST subfolder must be in this folder.
+
 * Check if "activity_labels.txt" file exists.
     + This file contains the labels for each activity. 
+    
 * Check if "features.txt" file exists.
-    + This file contains the labels for each feature (every measurement type).      
+    + This file contains the labels for each feature (every measurement type).   
+    
 * Check if TEST files exist.
     + "subject_test.txt": This file contains an identifier (integer ID) for each person who performed measurements.
     + "X_test.txt": This file contains every testing measurement.
-    + "y_test.txt": This file contains the activity that each person was doing when testing measurements were taken.
+    + "y_test.txt": This file contains the activity that each person was doing when testing measurements were taken.    
+    
+* Check if TRAIN files exist.
+    + "subject_train.txt": This file contains an identifier (integer ID) for each person who performed measurements.
+    + "X_train.txt": This file contains every training measurement.
+    + "y_train.txt": This file contains the activity that each person was doing when training measurements were taken.
+    
+         
+####  STEP 3: Reading the TEST files...
+* If testing files exist, it's time to read them.
+* In a general way, the files are read with "read.table" function with "check.names" option set to TRUE, to avoid possible duplicate variable names, and convert into a "dplyr" table dataframe with the function "tpl_df".
 
-         
-         
-         
+```
+test_subject_df <- tbl_df(read.table("UCI HAR Dataset/test/subject_test.txt", check.names = TRUE))
+test_X_df <- tbl_df(read.table("UCI HAR Dataset/test/X_test.txt", check.names = TRUE))
+test_y_df <- tbl_df(read.table("UCI HAR Dataset/test/y_test.txt", check.names = TRUE))
+```
+
+####  STEP 4: Reading the TRAIN files...
+* If training files exist, it's time to read them.
+* In a general way, the files are read with "read.table" function with "check.names" option set to TRUE, to avoid possible duplicate variable names, and convert into a "dplyr" table dataframe with the function "tpl_df".
+
+```
+train_subject_df <- tbl_df(read.table("UCI HAR Dataset/train/subject_train.txt", check.names = TRUE))
+train_X_df <- tbl_df(read.table("UCI HAR Dataset/train/X_train.txt", check.names = TRUE))
+train_y_df <- tbl_df(read.table("UCI HAR Dataset/train/y_train.txt", check.names = TRUE))
+
+```
+                                                        
+####  STEP 5: Reading the ACTIVITY and FEATURES files...
+* If activity and features files exist, it's time to read them.
+* In a general way, the files are read with "read.table" function with "check.names" option set to TRUE, to avoid possible duplicate variable names, and convert into a "dplyr" table dataframe with the function "tpl_df".
+
+```
+activity_names <- tbl_df(read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE, check.names = TRUE))        
+feature_names <- tbl_df(read.table("UCI HAR Dataset/features.txt", stringsAsFactors = FALSE, check.names = TRUE))
+
+```
          
