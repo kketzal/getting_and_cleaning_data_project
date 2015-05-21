@@ -129,15 +129,15 @@ suppressPackageStartupMessages(library(dplyr))
         mean_std_data_table <- select(data_table, V1, V2, mean_std_columns_index)        
         # Rename the subject column (V1) and Activity column (V2) with descriptive 
         # names
-        mean_std_data_table <- rename(mean_std_data_table, Subject = V1, Activity = V2)
-  
-        
-        # Group the "mean_std_data_table" dataset by SUBJECT and ACTIVITY
-        my_group <- group_by(mean_std_data_table,Subject,Activity)
+        mean_std_data_table <- rename(mean_std_data_table, Subject = V1, Activity = V2)      
+      
 
         # FINALLY, we get the "final_tidy_dataset" with the average of the mean and std 
         # values, grouped by Subject and Activity
         message("Getting the final tidy dataset with the average of all measurement values (mean and std), grouped by Subject and Activity...")
+        
+        # Group the "mean_std_data_table" dataset by SUBJECT and ACTIVITY
+        my_group <- group_by(mean_std_data_table,Subject,Activity)
         final_tidy_dataset <- summarise_each(my_group, funs(mean))
 
         # Write a file with the dataset "final_tidy_dataset" 
