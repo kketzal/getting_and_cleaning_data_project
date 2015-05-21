@@ -1,6 +1,7 @@
 ---
 title: "README.md"
-author: "Manuel Martínez Peinado. Country: Spain"
+author: "Manuel Martínez Peinado."
+Country: Spain
 date: "20/05/2015"
 ---
 **************
