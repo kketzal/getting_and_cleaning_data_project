@@ -1,7 +1,8 @@
 ---
-title: "CodeBook.md"
-author: "Manuel Martínez Peinado. Country: Spain"
-date: "20/05/2015"
+Title: "CodeBook.md"
+Author: "Manuel Martínez Peinado."
+Country: "Spain"
+Date: "20/05/2015"
 ---
 **************
 
