@@ -139,3 +139,46 @@ activity_df <- select(activity_df, V2)
 data_table <- tbl_df(cbind(subject_merged, activity_df, X_merged))
 ```
 
+####  STEP 11: Getting the data table with Subject, Activity, MEAN and STD values...
+* In this step, the script get the INDEX of COLUMNS with MEAN and STANDARD DEVIATION values from the character vector "name_of_features". 
+
+```
+ mean_std_columns_index <- grep("mean|std", name_of_features, value = FALSE) 
+```
+
+This index gives us the position of MEAN and STD columns in the "data_table" dataset. Previously, we need to ADD the NUMBER "2" to this columns index, because in the final "data_table" dataset, the First and Second columns are the SUBJECT and the ACTIVITY values, so we need to "JUMP" this 2 first columns.
+
+```
+  mean_std_columns_index <- mean_std_columns_index + 2  
+```
+* Get the table with the SUBJECT (V1), ACTIVITY (V2) and MEAN and STD values (using tne index "mean_std_columns_index")        
+
+```
+mean_std_data_table <- select(data_table, V1, V2, mean_std_columns_index)  
+```
+
+* Rename the subject column (V1) and Activity column (V2) with descriptive names
+
+```
+mean_std_data_table <- rename(mean_std_data_table, Subject = V1, Activity = V2)
+```  
+
+
+####  STEP 12: Getting the final tidy dataset with the average of all measurement values (mean and std), grouped by Subject and Activity...
+
+* First, the script groups the "mean_std_data_table" dataset by SUBJECT and ACTIVITY
+
+```
+ my_group <- group_by(mean_std_data_table,Subject,Activity) 
+```
+* Then, the script summarize the dataframe grouped "my_group", and gets the "final_tydy_dataset", applying the mean function to the measurement columns.
+
+```
+ final_tidy_dataset <- summarise_each(my_group, funs(mean))
+```
+
+#### FINAL STEP: Writting the result file in the current working directory...
+
+```
+write.table(final_tidy_dataset, file = "final_tidy_dataset.txt", row.names = FALSE)
+```
