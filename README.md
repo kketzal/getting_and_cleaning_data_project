@@ -178,7 +178,11 @@ mean_std_data_table <- rename(mean_std_data_table, Subject = V1, Activity = V2)
 ```
 
 #### FINAL STEP: Writting the result file in the current working directory...
-
+* The result is stored in the "final_tidy_dataset.txt" file.
 ```
 write.table(final_tidy_dataset, file = "final_tidy_dataset.txt", row.names = FALSE)
+```
+* You can read this file with the following code:
+```
+x <- read.table("final_tidy_dataset.txt", header = TRUE)
 ```
