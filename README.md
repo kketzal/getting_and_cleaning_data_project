@@ -28,17 +28,22 @@ date: "20/05/2015"
            Writting the result file in the working directory...
            Done!
            
-### STEP 1: Loading necessary libraries...
+#### STEP 1: Loading necessary libraries...
 
 * In this step the script load the library "dplyr", useful for managing dataframes. 
 
-###  STEP 2: Checking necessary files... 
- * In this step the script check for necessary files.
- * Check if folder "UCI HAR Dataset" exists.
- * Check if "UCI HAR Dataset/activity_labels.txt" file exist. 
-        * In this file we get the activity labels 
-         
-         
+####  STEP 2: Checking necessary files... 
+* In this step the script check for necessary files.
+* Check if folder "UCI HAR Dataset" exists. TRAIN and TEST subfolder must be in this folder.
+* Check if "activity_labels.txt" file exists.
+    + This file contains the labels for each activity. 
+* Check if "features.txt" file exists.
+    + This file contains the labels for each feature (every measurement type).      
+* Check if TEST files exist.
+    + "subject_test.txt": This file contains an identifier (integer ID) for each person who performed measurements.
+    + "X_test.txt": This file contains every testing measurement.
+    + "y_test.txt": This file contains the activity that each person was doing when testing measurements were taken.
+
          
          
          
