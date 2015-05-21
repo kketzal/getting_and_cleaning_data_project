@@ -28,16 +28,15 @@ date: "20/05/2015"
            Writting the result file in the working directory...
            Done!
            
-### STEP 1: Loading necessary libraries.
+### STEP 1: Loading necessary libraries...
 
-         * In this step the script load the library "dplyr", useful for managing dataframes. 
+* In this step the script load the library "dplyr", useful for managing dataframes. 
 
 ###  STEP 2: Checking necessary files... 
-
-         * In this step the script check for necessary files.
-         * Check if folder "UCI HAR Dataset" exists.
-         * Check if "UCI HAR Dataset/activity_labels.txt" file exist. 
-                * In this file we get the activity labels 
+ * In this step the script check for necessary files.
+ * Check if folder "UCI HAR Dataset" exists.
+ * Check if "UCI HAR Dataset/activity_labels.txt" file exist. 
+        * In this file we get the activity labels 
          
          
          
