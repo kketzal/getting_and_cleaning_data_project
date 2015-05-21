@@ -78,7 +78,7 @@ train_y_df <- tbl_df(read.table("UCI HAR Dataset/train/y_train.txt", check.names
                                                         
 ####  STEP 5: Reading the ACTIVITY and FEATURES files...
 * If activity and features files exist, it's time to read them.
-* In a general way, the files are read with "read.table" function with "check.names" option set to TRUE, to avoid possible duplicate variable names, and convert into a "dplyr" table dataframe with the function "tpl_df".
+* In a general way, the files are read with "read.table" function with "check.names" option set to TRUE, to avoid possible duplicate variable names, and convert into a "dplyr" table dataframe with the function "tpl_df". In this case, we set the "stringsAsFactors" option to FALSE, and so, our variable names will be "characters" and not "factors".
 
 ```
 activity_names <- tbl_df(read.table("UCI HAR Dataset/activity_labels.txt", stringsAsFactors = FALSE, check.names = TRUE))        
@@ -86,7 +86,7 @@ feature_names <- tbl_df(read.table("UCI HAR Dataset/features.txt", stringsAsFact
 
 ```
          
-####  STEP 6: Merging the TEST and TRAIN data tables....")
+####  STEP 6: Merging the TEST and TRAIN data tables....
 * Now, we merge train datasets and test datasets separately.
 * In this way:
    + we bind all train and test features datasets.
@@ -97,5 +97,17 @@ feature_names <- tbl_df(read.table("UCI HAR Dataset/features.txt", stringsAsFact
 X_merged <- rbind(test_X_df, train_X_df)
 y_merged <- rbind(test_y_df, train_y_df)
 subject_merged <- rbind(test_subject_df, train_subject_df)
+```
 
+        
+####  STEP 7: Getting the FEATURE NAMES...
+* In this step we extract a character vector with the names of each feature, subsetting the "feature_names" dataframe.
+
+```
+name_of_features <- feature_names$V2  
+```
+* There are problems with duplicate names in 'name_of_features', so, we need check the names and rewrite them in a unique form. The result is stored in the same variable 'name_of_features'
+
+```
+name_of_features <- make.names(name_of_features, unique = TRUE)  
 ```
