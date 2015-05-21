@@ -111,3 +111,31 @@ name_of_features <- feature_names$V2
 ```
 name_of_features <- make.names(name_of_features, unique = TRUE)  
 ```
+
+    
+####  STEP 8: Setting the FEATURE NAMES...
+* Assign the "name_of_features" to the features dataframe (X_merged) as variable names or column names.
+```
+names(X_merged) <- name_of_features  
+```
+    
+####  STEP 9: Joining the ACTIVITY NAMES and ACTIVITY table...
+* In this step, the script joins the "activity_names" dataframe and "y_merged"" dataframe by the column V1. This way, we get a dataframe with all the activity names.
+
+```
+activity_df <- left_join(y_merged, activity_names, by = "V1") 
+```
+* The previous dataframe "activity_df" has two columns, V1 = an index, and V2 = the full list of activities. The second one, is the column we need, so the script subsets "activity_df" and store the result in the same dataframe.
+
+```
+activity_df <- select(activity_df, V2)
+```
+
+    
+####  STEP 10: Binding Subject, Activity and Measurements tables...
+* Putting all together. In this step, the script binds all dataframes we need together, subject dataframe (subject_merged), activity dataframe (activity_df) and features dataframe (X_merged). The result is stored in "data_table"
+
+```
+data_table <- tbl_df(cbind(subject_merged, activity_df, X_merged))
+```
+
