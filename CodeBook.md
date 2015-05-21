@@ -5,7 +5,6 @@ Country: "Spain"
 Date: "20/05/2015"
 ---
 **************
-
 # CODEBOOK - Data Dictionary
 ## Getting and Cleaning Data - Course Project
 **************
